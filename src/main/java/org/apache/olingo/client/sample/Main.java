@@ -3,9 +3,9 @@ package org.apache.olingo.client.sample;
 import java.util.List;
 
 import org.apache.olingo.client.api.communication.ODataClientErrorException;
-import org.apache.olingo.commons.api.domain.ODataComplexValue;
-import org.apache.olingo.commons.api.domain.v4.ODataEntity;
-import org.apache.olingo.commons.api.domain.v4.ODataProperty;
+import org.apache.olingo.client.api.domain.ClientComplexValue;
+import org.apache.olingo.client.api.domain.ClientEntity;
+import org.apache.olingo.client.api.domain.ClientProperty;
 import org.apache.olingo.commons.api.edm.Edm;
 import org.apache.olingo.commons.api.edm.EdmEntitySet;
 
@@ -24,7 +24,7 @@ public class Main {
 
             System.out.println("People:");
             int count = 0;
-            for (ODataEntity peopleEntity : myClient.getAllPeople()) {
+            for (ClientEntity peopleEntity : myClient.getAllPeople()) {
                 System.out.println("#"+count);
                 printEntity(peopleEntity);
                 System.out.println();
@@ -33,7 +33,7 @@ public class Main {
 
             System.out.println("Airports:");
             count = 0;
-            for (ODataEntity airportEntity : myClient.getAllAirports()) {
+            for (ClientEntity airportEntity : myClient.getAllAirports()) {
                 System.out.println("#"+count);
                 printEntity(airportEntity);
                 System.out.println();
@@ -55,8 +55,8 @@ public class Main {
         }
     }
 
-    private static void printEntity(ODataEntity entity) {
-        for (ODataProperty property : entity.getProperties()) {
+    private static void printEntity(ClientEntity entity) {
+        for (ClientProperty property : entity.getProperties()) {
             if (property.hasComplexValue()) {
                 printComplexProperty(property);
             } else {
@@ -66,11 +66,11 @@ public class Main {
         System.out.println("-------------------------");
     }
 
-    private static void printComplexProperty(ODataProperty property) {
-        final ODataComplexValue<ODataProperty> complexValue = property.getComplexValue();
+    private static void printComplexProperty(ClientProperty property) {
+        final ClientComplexValue complexValue = property.getComplexValue();
         System.out.println(property.getName() + ":");
 
-        for (ODataProperty complexProp : complexValue) {
+        for (ClientProperty complexProp : complexValue) {
             System.out.println("\t" + complexProp.getName() + ":= " + complexProp.getValue());
         }
     }
