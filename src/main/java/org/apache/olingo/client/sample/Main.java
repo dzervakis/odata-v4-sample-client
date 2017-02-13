@@ -11,9 +11,13 @@ import org.apache.olingo.commons.api.edm.EdmEntitySet;
 
 public class Main {
     public static void main(String[] args) {
+
+        //Instantiate an OData client:
         final SampleClient myClient = new SampleClient();
+        Integer count;
 
         try {
+            //Get the names of all Entity Sets:
             final Edm metaDocument = myClient.getMetaDocument();
             final List<EdmEntitySet> entitySets = metaDocument.getSchemas().get(0).getEntityContainer().getEntitySets();
             System.out.println("Available entity sets:");
@@ -22,31 +26,58 @@ public class Main {
             }
             System.out.println();
 
-            System.out.println("People:");
-            int count = 0;
-            for (ClientEntity peopleEntity : myClient.getAllPeople()) {
+            //Example #1 - all entities
+            System.out.println("Entity Set {Addresses}:");
+            count = 0;
+            for (ClientEntity peopleEntity : myClient.getAllAddresses()) {
                 System.out.println("#"+count);
                 printEntity(peopleEntity);
                 System.out.println();
                 count += 1;
             }
+            System.out.println("=====================================================================================");
+            System.out.println();
 
-            System.out.println("Airports:");
+            //Example #2 - all entities
+            System.out.println("Entity Set {Roadlines}:");
             count = 0;
-            for (ClientEntity airportEntity : myClient.getAllAirports()) {
+            for (ClientEntity airportEntity : myClient.getAllRoadlines()) {
                 System.out.println("#"+count);
                 printEntity(airportEntity);
                 System.out.println();
                 count += 1;
             }
-
-            System.out.println();
-            System.out.println("People: #scottketchum");
-            printEntity(myClient.getPeople("scottketchum"));
+            System.out.println("=====================================================================================");
             System.out.println();
 
-            System.out.println("Airport: #KSFO");
-            printEntity(myClient.getAirport("KSFO"));
+            //Example #3 - all entities from named Entity Set
+            String entitySetName = "brt_201604__relief_hogezijde";
+            System.out.println("Entity Set {" + entitySetName + "}:");
+            count = 0;
+            for (ClientEntity odataEntity : myClient.getAllEntities(entitySetName)) {
+                System.out.println("#"+count);
+                printEntity(odataEntity);
+                System.out.println();
+                count += 1;
+            }
+            System.out.println("=====================================================================================");
+            System.out.println();
+
+            //Example #1 - one entity, with key id (string)
+            System.out.println();
+            System.out.println("Address: #0003010000126006");
+            printEntity(myClient.getAddress("0003010000126006"));  //printEntity(myClient.getAddress("0005100000006388"));
+            System.out.println();
+
+            //Example #2 - one entity, with key id (integer)
+            System.out.println("Roadline: #103085369");
+            printEntity(myClient.getRoadline(103085369));
+            System.out.println();
+
+            //Example #3 - one entity, with key id (object cast to integer)
+            Integer entityKey = 104534812;
+            System.out.println(entitySetName + ": #" + entityKey.toString());
+            printEntity(myClient.getEntity(entitySetName,entityKey));
             System.out.println();
 
             //printEntity(myClient.getAirport(10)); // There is no airport with Id = 10
