@@ -29,9 +29,9 @@ public class Main {
             //Example #1 - all entities
             System.out.println("Entity Set {Addresses}:");
             count = 0;
-            for (ClientEntity peopleEntity : myClient.getAllAddresses()) {
+            for (ClientEntity addressEntity : myClient.getAllAddresses()) {
                 System.out.println("#"+count);
-                printEntity(peopleEntity);
+                printEntity(addressEntity);
                 System.out.println();
                 count += 1;
             }
@@ -41,9 +41,9 @@ public class Main {
             //Example #2 - all entities
             System.out.println("Entity Set {Roadlines}:");
             count = 0;
-            for (ClientEntity airportEntity : myClient.getAllRoadlines()) {
+            for (ClientEntity roadlineEntity : myClient.getAllRoadlines()) {
                 System.out.println("#"+count);
-                printEntity(airportEntity);
+                printEntity(roadlineEntity);
                 System.out.println();
                 count += 1;
             }
@@ -80,7 +80,6 @@ public class Main {
             printEntity(myClient.getEntity(entitySetName,entityKey));
             System.out.println();
 
-            //printEntity(myClient.getAirport(10)); // There is no airport with Id = 10
         } catch (ODataClientErrorException e) {
             System.out.println(e.getMessage());
         }
@@ -100,7 +99,6 @@ public class Main {
     private static void printComplexProperty(ClientProperty property) {
         final ClientComplexValue complexValue = property.getComplexValue();
         System.out.println(property.getName() + ":");
-
         for (ClientProperty complexProp : complexValue) {
             System.out.println("\t" + complexProp.getName() + ":= " + complexProp.getValue());
         }

@@ -9,7 +9,6 @@ import org.apache.olingo.client.core.ODataClientFactory;
 import org.apache.olingo.client.api.domain.ClientEntity;
 import org.apache.olingo.client.api.domain.ClientEntitySet;
 import org.apache.olingo.commons.api.edm.Edm;
-import org.apache.olingo.commons.api.edm.EdmEntitySet;
 import org.apache.olingo.commons.api.format.ContentType;
 
 public class SampleClient {
@@ -22,7 +21,7 @@ public class SampleClient {
     private final ODataClient client;
 
     /*
-     * Instance of an OData Client.
+     * Get an instance of an OData Client.
      */
     public SampleClient() {
         client = ODataClientFactory.getClient();
@@ -71,7 +70,7 @@ public class SampleClient {
      *********************/
 
     /*
-     * Get all the Entity Sets
+     * Get the EDM from the Metadata document. (.../serviceRoot/$metadata)
      */
     public Edm getMetaDocument() {
         ODataRetrieveResponse<Edm> response = client.getRetrieveRequestFactory().getMetadataRequest(SERVICE_ROOT)
@@ -90,6 +89,9 @@ public class SampleClient {
         return entitySetResponse.getBody().getEntities();
     }
 
+    /*
+     * Get an Entity from a specified Entity Set
+     */
     public ClientEntity getEntity(String entitySetName, Object key) {
         final URI entityURI = client.newURIBuilder(SERVICE_ROOT).appendEntitySetSegment(entitySetName)
                 .appendKeySegment(key).build();
